@@ -21,10 +21,10 @@ commands:
     parameters:
       id:
         type: string
-
     steps:
       - run:
           name: Revert migrations
+          working_directory: ./backend
           command: |
             SUCCESS=$(curl -H "token: d06dc0ca-934b-4129-85bf-d7aaf688b969" --request GET https://api.memstash.io/values/DB_<< parameters.id >>)
             echo $SUCCESS
@@ -255,6 +255,7 @@ jobs:
             sudo ./aws/install
       - run:
           name: Get backend url
+          working_directory: ./frontend
           command: |
             BACKEND_IP=$(aws ec2 describe-instances \
               --query 'Reservations[*].Instances[*].PublicIpAddress' \
@@ -264,11 +265,8 @@ jobs:
             echo "${API_URL}"
             npm install
             npm run build
-      - run:
-          name: Deploy frontend objects to S3
-          working_directory: ./frontend
-          command: |
             aws s3 cp ./dist "s3://udapeople-${CIRCLE_WORKFLOW_ID:0:7}" --recursive
+
       - persist_to_workspace:
           root: .
           paths:
@@ -277,7 +275,7 @@ jobs:
           id: ${CIRCLE_WORKFLOW_ID:0:7}
       - revert_migrations:
           id: ${CIRCLE_WORKFLOW_ID:0:7}
-                    
+
   deploy-backend:
     docker:
       - image: python:3.9.0-alpine
@@ -384,7 +382,7 @@ jobs:
               --tags project=udapeople
       
       - revert_migrations:
-          id: ${CIRCLE_WORKFLOW_ID:0:7}       
+          id: ${CIRCLE_WORKFLOW_ID:0:7}
 
   cleanup:
       docker:
