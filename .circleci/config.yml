@@ -283,7 +283,7 @@ jobs:
 
   smoke-test:
     docker:
-      # Lightweight Docker image 
+      - image: python:3.9.0-alpine
     steps:
       - checkout
       - attach_workspace:
