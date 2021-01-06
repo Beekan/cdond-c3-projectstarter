@@ -211,12 +211,12 @@ jobs:
           working_directory: ./backend
           command: |
             npm install
-            npm run migrations > migration_status
+            npm run migrations | tee migration_results.txt
       - run:
           name: Send migration results to memstash
           working_directory: ./backend
           command: |
-            if grep -q "has been executed successfully" migration_status
+            if grep -q "has been executed successfully" migration_results.txt
             then
               echo "DB migration was successful, will update memstash..."
               curl -H "Content-Type: text/plain" -H "token: d06dc0ca-934b-4129-85bf-d7aaf688b969" --request PUT --data "success" https://api.memstash.io/values/DB_${CIRCLE_WORKFLOW_ID:0:7}
