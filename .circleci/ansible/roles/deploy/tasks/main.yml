@@ -25,6 +25,6 @@
     become: true
     shell: |
       cd /home/ubuntu/backend
-      . development.env
+      source development.env
       pm2 start npm --name backend -- start
       pm2 ls
