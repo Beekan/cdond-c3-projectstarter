@@ -21,10 +21,16 @@
     shell: |
       cd /home/ubuntu/backend
       npm run migrations
-  - name: Executing node
-    become: true
+  - name: source variables
     shell: |
       cd /home/ubuntu/backend
       source development.env
-      pm2 start npm --name backend -- start
+  - name: starting pm2
+    shell: |
+      cd /home/ubuntu/backend
       pm2 ls
+  - name:
+    shell: |
+      cd /home/ubuntu/backend
+      pm2 start npm --name backend -- start
+      
