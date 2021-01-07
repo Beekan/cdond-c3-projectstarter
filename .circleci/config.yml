@@ -298,13 +298,13 @@ jobs:
           command: |
             cat inventory.txt
             ls -la ./backend
-            cd ./.circleci/ansible
+            cd .circleci/ansible
             ANSIBLE_HOST_KEY_CHECKING=False ansible-playbook -i inventory.txt deploy-backend.yml
 
-      - destroy_environment:
-          id: ${CIRCLE_WORKFLOW_ID:0:7}
-      - revert_migrations:
-          id: ${CIRCLE_WORKFLOW_ID:0:7}
+      # - destroy_environment:
+      #     id: ${CIRCLE_WORKFLOW_ID:0:7}
+      # - revert_migrations:
+      #     id: ${CIRCLE_WORKFLOW_ID:0:7}
       # Here's where you will add some code to rollback on failure  
 
   smoke-test:
