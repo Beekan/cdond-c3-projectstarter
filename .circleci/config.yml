@@ -361,6 +361,7 @@ jobs:
             WorkflowID=$(aws cloudformation \
               list-exports --query "Exports[?Name==\`WorkflowID\`].Value" \
               --no-paginate --output text)
+            echo $WorkflowID
             curl -H "Content-Type: text/plain" -H "token: d06dc0ca-934b-4129-85bf-d7aaf688b969" --request PUT --data "$WorkflowID" https://api.memstash.io/values/WorkflowID
       - run:
           name: Update cloudfront distribution
