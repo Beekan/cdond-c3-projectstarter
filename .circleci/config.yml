@@ -65,6 +65,7 @@ jobs:
           name: Back-end build
           working_directory: ./backend
           command: |
+            cat development.env > .env
             npm i
             npm run build
       - persist_to_workspace:
