@@ -20,25 +20,25 @@
       chdir: /home/ubuntu/backend
 
   - name: "run migrations again"
-    shell: npm run migrations
+    shell: . ./development.env && npm run migrations
     args:
       chdir: /home/ubuntu/backend
 
   - name: source variables
-    shell: pm2 start npm --name backend -- start
+    shell: . ./development.env && pm2 start npm --name backend -- start
     args:
       chdir: /home/ubuntu/backend
-    environment:
-     ENVIRONMENT: production
-     TYPEORM_CONNECTION: "{{ lookup('env', 'TYPEORM_CONNECTION') }}"
-     TYPEORM_MIGRATIONS_DIR: "./migrations"
-     TYPEORM_MIGRATIONS: "./migrations/*.js"
-     TYPEORM_ENTITIES: "./modules/domain/**/*.entity.js"
-     TYPEORM_HOST: "{{ lookup('env', 'TYPEORM_HOST') }}"
-     TYPEORM_PORT: "{{ lookup('env', 'TYPEORM_PORT') }}"
-     TYPEORM_USERNAME: "{{ lookup('env', 'TYPEORM_USERNAME') }}"
-     TYPEORM_PASSWORD: "{{ lookup('env', 'TYPEORM_PASSWORD') }}"
-     TYPEORM_DATABASE: "{{ lookup('env', 'TYPEORM_DATABASE') }}"
+    # environment:
+    #  ENVIRONMENT: production
+    #  TYPEORM_CONNECTION: "{{ lookup('env', 'TYPEORM_CONNECTION') }}"
+    #  TYPEORM_MIGRATIONS_DIR: "./migrations"
+    #  TYPEORM_MIGRATIONS: "./migrations/*.js"
+    #  TYPEORM_ENTITIES: "./modules/domain/**/*.entity.js"
+    #  TYPEORM_HOST: "{{ lookup('env', 'TYPEORM_HOST') }}"
+    #  TYPEORM_PORT: "{{ lookup('env', 'TYPEORM_PORT') }}"
+    #  TYPEORM_USERNAME: "{{ lookup('env', 'TYPEORM_USERNAME') }}"
+    #  TYPEORM_PASSWORD: "{{ lookup('env', 'TYPEORM_PASSWORD') }}"
+    #  TYPEORM_DATABASE: "{{ lookup('env', 'TYPEORM_DATABASE') }}"
       
   # - name: starting pm2
   #   shell: |
