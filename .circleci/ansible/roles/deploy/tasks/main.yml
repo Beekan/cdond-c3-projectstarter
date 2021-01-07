@@ -23,15 +23,15 @@
       npm run migrations
   - name: source variables
     shell:
-      cmd: source development.env
+      cmd: . development.env && pm2 start npm --name backend -- start
       chdir: /home/ubuntu/backend
       
-  - name: starting pm2
-    shell: |
-      cd /home/ubuntu/backend
-      pm2 ls
-  - name:
-    shell: |
-      cd /home/ubuntu/backend
-      pm2 start npm --name backend -- start
+  # - name: starting pm2
+  #   shell: |
+  #     cd /home/ubuntu/backend
+  #     pm2 ls
+  # - name:
+  #   shell: |
+  #     cd /home/ubuntu/backend
+  #     pm2 start npm --name backend -- start
       
