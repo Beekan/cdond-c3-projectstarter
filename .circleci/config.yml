@@ -295,10 +295,10 @@ jobs:
             aws --version
       - run:
           name: Deploy backend
-          working_directory: ./.circleci/ansible
           command: |
             cat inventory.txt
             ls -la ./backend
+            cd ./.circleci/ansible
             ANSIBLE_HOST_KEY_CHECKING=False ansible-playbook -i inventory.txt deploy-backend.yml
 
       - destroy_environment:
