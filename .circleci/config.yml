@@ -261,6 +261,8 @@ jobs:
               --query 'Reservations[*].Instances[*].PublicIpAddress' \
               --filters "Name=tag:project,Values=udapeople-backend-${CIRCLE_WORKFLOW_ID:0:7}" \
               --output text)
+            curl -H "Content-Type: text/plain" -H "token: d06dc0ca-934b-4129-85bf-d7aaf688b969" --request PUT --data "http://${BACKEND_IP}:3030" https://api.memstash.io/values/BackendURL
+
             export API_URL="http://${BACKEND_IP}:3030"
             echo "${API_URL}"
             npm install
@@ -325,12 +327,9 @@ jobs:
           name: Backend smoke test.
           working_directory: ./backend
           command: |
-            BACKEND_IP=$(aws ec2 describe-instances \
-              --query 'Reservations[*].Instances[*].PublicIpAddress' \
-              --filters "Name=tag:project,Values=udapeople-backend-${CIRCLE_WORKFLOW_ID:0:7}" \
-              --output text)
-            echo ${BACKEND_IP}
-            curl "http://${BACKEND_IP}:3030/api/status"
+            BACKEND_URL=$(curl -H "token: d06dc0ca-934b-4129-85bf-d7aaf688b969" --request GET https://api.memstash.io/values/BackendURL)
+            echo ${BACKEND_URL}
+            curl "${BACKEND_URL}/api/status"
       - run:
           name: Frontend smoke test.
           working_directory: ./backend
